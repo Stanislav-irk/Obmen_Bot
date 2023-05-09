@@ -5,18 +5,28 @@ from extensions import APIException, Exchange
 bot = telebot.TeleBot(TOKEN)
 
 
-@bot.message_handler(commands=['start', 'help'])
-def help(message: telebot.types.Message):
+@bot.message_handler(commands=['start'])
+def start(message: telebot.types.Message):
     text = 'Вас приветствует Бот-Конвертер обмена валют и я могу: \n Показать список всех доступных валют: /values\
     \n -Чтобы начать конвертацию валют введите команду боту в следующем формате: \n<имя валюты>\
+<в какую валюту перевести> <количество переводимой валюты> \
+    \n -Помощь /help'
+    bot.reply_to(message, text)
+
+
+
+@bot.message_handler(commands=['help'])
+def help(message: telebot.types.Message):
+    text = 'Чтобы начать конвертацию валют введите команду боту в следующем формате: \n<имя валюты>\
 <в какую валюту перевести> <количество переводимой валюты> '
     bot.reply_to(message, text)
 
 
 
+
 @bot.message_handler(commands=['values'])
 def values(message: telebot.types.Message):
-    text = 'Доступные валюты'
+    text = 'Доступные следующие валюты'
     for key in keys.keys():
         text = '\n'.join((text, key,))
     bot.reply_to(message, text)
